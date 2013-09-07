@@ -2,7 +2,13 @@ preg
 ====
 a DFA regex implementation made of C
 
-C语言实现的DFA正则表达式，作为一个DFA，没有分组和分组提取，除此之外的规则和posix基本一致
+C语言实现的DFA正则表达式，作为一个DFA，没有分组和分组提取
+
+当然，更不会有分组的命名、前后向预查
+
+支持\t、\r、\n、\v、\f五个转义字符，以及\x加hex数的转义字符
+
+预设字符集，只支持\s、\d、\c、\w，不能使用[::]类型的字符集
 
 对char*类型进行的匹配，应保证提供的规则字符串和目标字符串编码一致
 
@@ -32,9 +38,19 @@ C语言实现的DFA正则表达式，作为一个DFA，没有分组和分组提�
 	group preg_find(const regex*,char*)
 	返回值的pos表示第一个能实现匹配的位置，pos<0这表示没有找到；len表示匹配的长度
 
-	void preg_show(const regex*,long)
-	在控制台标准输出显示正则表达式内部DFA的具体构造，包括字符分组、状态转移表、出口等；
-	long类型参数表示字符分组的显示方式，为0时不显示，大于0时只显示使用字符的分组，小于0时显示全部字符的分组
-
 	void preg_free(regex*)
 	释放regex指针
+
+额外
+
+	额外提供的preg_show函数可以用于显示regex内部DFA的结构，帮助学习regex：
+	
+	void preg_show(const regex *reg,long type)
+	
+	会输出DFA的具体构造，包括字符分组、状态转移表、出口等；
+	
+		type==0 时不显示字符分组；
+		
+		type >0 时只显示使用字符的分组；
+		
+		type <0 时显示全部字符的分组；
