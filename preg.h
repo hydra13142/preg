@@ -632,7 +632,7 @@ static void _(Extend)(long *u,const _(NFA) *nfa)
 		}
 	}
 }
-static _(DFA) *_(Translate)(const _(NFA) *nfa,const _(table) *evr,const _(token) *tk)
+static _(DFA) *_(Translate)(const _(NFA) *nfa,const _(table) *evr)
 {
 	long i,j,k,t,a;
 	long *p,*q;
@@ -757,7 +757,7 @@ extern regex *preg_make(const char *str)
 		if(nfa)
 		{
 			evr=_(Isolate)(tkn);
-			dfa=_(Translate)(nfa,evr,tkn);
+			dfa=_(Translate)(nfa,evr);
 			free(nfa->trk);
 			free(nfa);
 			free(evr->unt);
